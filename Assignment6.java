@@ -114,6 +114,41 @@ public class Assignment6 {
                 System.out.println(e.getMessage());
             }
         }
+        public boolean checkWin(char token){
+
+            for (int row = 0; row <6;row++){
+                for (int col = 0; col<4;col++){
+                    if (array[row][col]==token && array[row][col+1]==token && array[row][col+2]==token && array[row][col+3]==token){
+                        return true;
+                    }
+                }
+            }
+
+            for (int col = 0; col<7;col++){
+                for (int row = 0; row<3;row++){
+                    if(array[row][col]==token && array[row+1][col]==token && array[row+2][col]==token && array[row+3][col]== token){
+                        return true;
+                    }
+                }
+            }
+
+            for (int row = 3; row <6;row++){
+                for (int col = 0; col <4;col++){
+                    if(array[row][col]==token && array[row-1][col+1]==token && array[row-2][col+2]==token&& array[row-3][col+3]==token){
+                        return true;
+                    }
+                }
+            }
+
+            for (int row = 0; row<3; row++){
+                for (int col = 0; col<4;col++){
+                    if (array[row][col]==token && array[row+1][col+1]==token && array[row+2][col+2]==token && array[row+2][col+2]==token){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -125,9 +160,14 @@ public class Assignment6 {
         while (!quit) {
             System.out.println("What column would " + connectFour.turn + " like to go in (7 to save, 8 to load, 9 to quit)");
             int choice = sc.nextInt();
-            if (choice == 1 || choice == 2 || choice == 3 || choice == 4 || choice == 5 || choice == 6) {
+            if (choice>=0 && choice <=6) {
                 try {
                     connectFour.dropPiece(choice, connectFour.nextToken);
+                    if (connectFour.checkWin(connectFour.nextToken)){
+                        System.out.println(connectFour.toString());
+                        System.out.println(connectFour.turn+" wins!");
+                        quit = true;
+                    }
                     connectFour.nextTurn();
                 } catch (ColumnFull e) {
                     System.out.println("That column is full try again");
